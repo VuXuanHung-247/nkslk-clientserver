@@ -4,7 +4,8 @@ const routes=[
     {path:'/sanpham',component:sanpham},
     {path:'/congviec',component:congviec},
     {path:'/congnhan',component:congnhan},
-    {path:'/phongban',component:phongban}
+    {path:'/phongban',component:phongban},
+    {path:'/report',component:report}
 ]
 
 const router=new VueRouter({

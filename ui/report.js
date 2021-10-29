@@ -1,0 +1,1 @@
+const report={template:`<h2>Báo cáo Thống kê</h2>`}
