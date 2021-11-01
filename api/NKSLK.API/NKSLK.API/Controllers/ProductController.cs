@@ -4,19 +4,19 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
-using System.Data;
 using System.Data.SqlClient;
-using Microsoft.Extensions.Configuration;
+using System.Data;
 using NKSLK.API.Models;
+using Microsoft.Extensions.Configuration;
 
 namespace NKSLK.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class PhongBanController : ControllerBase
+    public class ProductController : ControllerBase
     {
         private readonly IConfiguration _configuration;
-        public PhongBanController(IConfiguration configuration)
+        public ProductController(IConfiguration configuration)
         {
             _configuration = configuration;
         }
@@ -24,9 +24,7 @@ namespace NKSLK.API.Controllers
         [HttpGet]
         public JsonResult Get()
         {
-            string query = @"
-                            select ma_phongban, ten_phongban from PHONGBAN
-                            ";
+            string query = @"select ma_sanpham, tensanpham, sodangky, hansudung, quycach, ngaydangky from SANPHAM";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
@@ -46,13 +44,35 @@ namespace NKSLK.API.Controllers
             return new JsonResult(table);
         }
 
-        [HttpPost]
-        public JsonResult Post(PhongBan pb)
+        [HttpGet("{id}")]
+        public JsonResult Get([FromRoute] int id)
         {
-            string query = @"
-                           insert into dbo.PHONGBAN
-                           values (@ten_phongban)
-                            ";
+            string query = @"select ma_sanpham, tensanpham from SANPHAM where ma_sanpham = @ma_sanpham";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ma_sanpham", id);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult(table);
+        }
+
+        [HttpPost]
+        public JsonResult Post(Product pd)
+        {
+            string query = @"insert into dbo.SANPHAM
+                           values (@tensanpham, @sodangky, @hansudung, @quycach, @ngaydangky)";
 
 
             DataTable table = new DataTable();
@@ -63,7 +83,11 @@ namespace NKSLK.API.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ten_phongban", pb.ten_phongban);
+                    myCommand.Parameters.AddWithValue("@tensanpham", pd.tensanpham);
+                    myCommand.Parameters.AddWithValue("@sodangky", pd.sodangky);
+                    myCommand.Parameters.AddWithValue("@hansudung", pd.hansudung);
+                    myCommand.Parameters.AddWithValue("@quycach", pd.quycach);
+                    myCommand.Parameters.AddWithValue("@ngaydangky", pd.ngaydangky);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -71,17 +95,15 @@ namespace NKSLK.API.Controllers
                 }
             }
 
-            return new JsonResult("Added department Successfully!");
+            return new JsonResult("Added product successfully!");
         }
 
         [HttpPut]
-        public JsonResult Put(PhongBan pb)
+        public JsonResult Put(Product pd)
         {
-            string query = @"
-                           update dbo.PHONGBAN
-                           set ten_phongban= @ten_phongban
-                            where ma_phongban=@ma_phongban
-                            ";
+            string query = @"update dbo.SANPHAM
+                           set tensanpham = @tensanpham, sodangky = @sodangky, hansudung = @hansudung, quycach = @quycach, ngaydangky = @ngaydangky
+                            where ma_sanpham = @ma_sanpham";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
@@ -91,8 +113,12 @@ namespace NKSLK.API.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ma_phongban", pb.ma_phongban);
-                    myCommand.Parameters.AddWithValue("@ten_phongban", pb.ten_phongban);
+                    myCommand.Parameters.AddWithValue("@ma_sanpham", pd.ma_sanpham);
+                    myCommand.Parameters.AddWithValue("@tensanpham", pd.tensanpham);
+                    myCommand.Parameters.AddWithValue("@sodangky", pd.sodangky);
+                    myCommand.Parameters.AddWithValue("@hansudung", pd.hansudung);
+                    myCommand.Parameters.AddWithValue("@quycach", pd.quycach);
+                    myCommand.Parameters.AddWithValue("@ngaydangky", pd.ngaydangky);
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
                     myReader.Close();
@@ -100,16 +126,14 @@ namespace NKSLK.API.Controllers
                 }
             }
 
-            return new JsonResult("Updated Successfully");
+            return new JsonResult("Updated product successfully!");
         }
 
         [HttpDelete("{id}")]
         public JsonResult Delete(int id)
         {
-            string query = @"
-                           delete from dbo.PHONGBAN
-                            where ma_phongban=@ma_phongban
-                            ";
+            string query = @"delete from dbo.SANPHAM
+                            where ma_sanpham= @ma_sanpham";
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
@@ -119,7 +143,7 @@ namespace NKSLK.API.Controllers
                 myCon.Open();
                 using (SqlCommand myCommand = new SqlCommand(query, myCon))
                 {
-                    myCommand.Parameters.AddWithValue("@ma_phongban", id);
+                    myCommand.Parameters.AddWithValue("@ma_sanpham", id);
 
                     myReader = myCommand.ExecuteReader();
                     table.Load(myReader);
@@ -128,8 +152,7 @@ namespace NKSLK.API.Controllers
                 }
             }
 
-            return new JsonResult("Deleted Successfully");
+            return new JsonResult("Deleted product successfully!");
         }
-
     }
 }
