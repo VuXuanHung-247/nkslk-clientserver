@@ -1,6 +1,4 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using NKSLK.API.Models;
-using NKSLK.API.Repository;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -12,37 +10,35 @@ namespace NKSLK.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class JobController : ControllerBase
+    public class ValuesController : ControllerBase
     {
-        // GET: api/<JobController>
+        // GET: api/<ValuesController>
         [HttpGet]
-        public IActionResult Get()
+        public IEnumerable<string> Get()
         {
-            JobRepository jobRepo = new JobRepository();
-            var data = jobRepo.GetAllJob();
-            return Ok(data);
+            return new string[] { "value1", "value2" };
         }
 
-        // GET api/<JobController>/5
+        // GET api/<ValuesController>/5
         [HttpGet("{id}")]
         public string Get(int id)
         {
             return "value";
         }
 
-        // POST api/<JobController>
+        // POST api/<ValuesController>
         [HttpPost]
         public void Post([FromBody] string value)
         {
         }
 
-        // PUT api/<JobController>/5
+        // PUT api/<ValuesController>/5
         [HttpPut("{id}")]
         public void Put(int id, [FromBody] string value)
         {
         }
 
-        // DELETE api/<JobController>/5
+        // DELETE api/<ValuesController>/5
         [HttpDelete("{id}")]
         public void Delete(int id)
         {
