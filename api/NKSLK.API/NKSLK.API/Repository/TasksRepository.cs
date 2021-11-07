@@ -68,5 +68,29 @@ namespace NKSLK.API.Repository
                 return obj;
             }
         }
+        public bool CheckExistsTask(int id)
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var dataParam = new DynamicParameters();
+                dataParam.Add("id",id);
+                var obj = connection.Query<Tasks>(sql: "Proc_GetTaskForDelete", param: dataParam, commandType: CommandType.StoredProcedure).FirstOrDefault();
+                if (obj == null)
+                {
+                    return false;
+                }
+                return true;
+            }
+        }
+        public int Delete(int id )
+        {
+            using (var connection = new SqlConnection(connectionString))
+            {
+                var dataParam = new DynamicParameters();
+                dataParam.Add("id", id);
+                var rowEffect = connection.Execute(sql: "Proc_DeleteTasks", param: dataParam, commandType: CommandType.StoredProcedure);
+                return rowEffect;
+            }
+        }
     }
 }

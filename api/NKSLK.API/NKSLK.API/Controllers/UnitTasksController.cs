@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NKSLK.API.Models;
 using NKSLK.API.Repository;
+using NKSLK.API.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -92,6 +93,11 @@ namespace NKSLK.API.Controllers
         {
             try
             {
+                var unitTaskService = new UnitTasksService();
+                if (unitTaskService.CheckExistsUnitTask(param.unittasks_id))
+                {
+                    return Ok(param);
+                }
                 var unitTasksRepository = new UnitTasksRepository();
                 var rowEffect = unitTasksRepository.DeleteUnitTasks(param.unittasks_id);
                 if (rowEffect > 0)

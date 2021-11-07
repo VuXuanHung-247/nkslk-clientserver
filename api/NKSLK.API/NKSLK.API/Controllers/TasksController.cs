@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using NKSLK.API.Models;
 using NKSLK.API.Repository;
+using NKSLK.API.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -84,10 +85,33 @@ namespace NKSLK.API.Controllers
             }
         }
 
-        // DELETE api/<TasksController>/5
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [Route("Delete")]
+        [HttpPost]
+        public IActionResult Delete([FromBody] Tasks param)
         {
+            try
+            {
+                var taskService = new TasksService();
+                if (taskService.CheckExistsTask(param.tasks_id))
+                {
+                    return Ok(param);
+                }
+                var taskRepo = new TasksRepository();
+                var rowEffect = taskRepo.Delete(param.tasks_id);
+                if (rowEffect > 0)
+                {
+                    return Created("Oke", rowEffect);
+                }
+                else
+                {
+                    return NoContent();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500);
+            }
         }
         [Route("GetMaxJobByNKSLK")]
         [HttpGet]
@@ -135,5 +159,6 @@ namespace NKSLK.API.Controllers
                 return StatusCode(500);
             }
         }
+
     }
 }
