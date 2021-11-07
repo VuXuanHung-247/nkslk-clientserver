@@ -159,6 +159,99 @@ namespace NKSLK.API.Controllers
                 return StatusCode(500);
             }
         }
+        [Route("GetTasksMaxPrice")]
+        [HttpGet]
+        public IActionResult GetTasksMaxPrice()
+        {
+            try
+            {
+                var tasksRepo = new TasksRepository();
+                var data = tasksRepo.GetTasksMaxPrice();
+                if (data.Count() > 0)
+                {
+                    return Ok(data);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [Route("GetTasksMinPrice")]
+        [HttpGet]
+        public IActionResult GetTasksMinPrice()
+        {
+            try
+            {
+                var tasksRepo = new TasksRepository();
+                var data = tasksRepo.GetTasksMinPrice();
+                if (data.Count() > 0)
+                {
+                    return Ok(data);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+
+        [Route("GetTasksLessAVG")]
+        [HttpGet]
+        public IActionResult GetTasksLessAVG()
+        {
+            try
+            {
+                var tasksRepo = new TasksRepository();
+                var data = tasksRepo.GetTasksLessAVG();
+                if (data.Count() > 0)
+                {
+                    return Ok(data);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
+        [Route("GetTasksBiggerAVG")]
+        [HttpGet]
+        public IActionResult GetTasksBiggerAVG()
+        {
+            try
+            {
+                var tasksRepo = new TasksRepository();
+                var data = tasksRepo.GetTasksBiggerAVG();
+                if (data.Count() > 0)
+                {
+                    return Ok(data);
+                }
+                else
+                {
+                    return NoContent();
+                }
+            }
+            catch (Exception)
+            {
+
+                return StatusCode(500);
+            }
+        }
 
     }
 }
