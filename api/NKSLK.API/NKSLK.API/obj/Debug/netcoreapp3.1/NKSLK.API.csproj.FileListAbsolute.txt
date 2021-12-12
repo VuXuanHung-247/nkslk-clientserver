@@ -60,3 +60,5 @@ C:\Users\Tran Ha\Documents\GitHub\nkslk-clientserver\api\NKSLK.API\NKSLK.API\obj
 C:\Users\Tran Ha\Documents\GitHub\nkslk-clientserver\api\NKSLK.API\NKSLK.API\obj\Debug\netcoreapp3.1\NKSLK.API.dll
 C:\Users\Tran Ha\Documents\GitHub\nkslk-clientserver\api\NKSLK.API\NKSLK.API\obj\Debug\netcoreapp3.1\NKSLK.API.pdb
 C:\Users\Tran Ha\Documents\GitHub\nkslk-clientserver\api\NKSLK.API\NKSLK.API\obj\Debug\netcoreapp3.1\NKSLK.API.genruntimeconfig.cache
+D:\Ky1-Năm-Cuối\Client Server\NKSLK-Project\api\NKSLK.API\NKSLK.API\bin\Debug\netcoreapp3.1\Dapper.dll
+D:\Ky1-Năm-Cuối\Client Server\NKSLK-Project\api\NKSLK.API\NKSLK.API\obj\Debug\netcoreapp3.1\NKSLK.API.csproj.AssemblyReference.cache

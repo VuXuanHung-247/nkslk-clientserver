@@ -763,24 +763,19 @@
     ]
   },
   "packageFolders": {
-    "C:\\Users\\PC\\.nuget\\packages\\": {},
-    "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages": {}
+    "C:\\Users\\84944\\.nuget\\packages\\": {}
   },
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "C:\\Users\\PC\\Desktop\\Project ClientServer\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
+      "projectUniqueName": "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
       "projectName": "NKSLK.API",
-      "projectPath": "C:\\Users\\PC\\Desktop\\Project ClientServer\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
-      "packagesPath": "C:\\Users\\PC\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\PC\\Desktop\\Project ClientServer\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\obj\\",
+      "projectPath": "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
+      "packagesPath": "C:\\Users\\84944\\.nuget\\packages\\",
+      "outputPath": "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\obj\\",
       "projectStyle": "PackageReference",
-      "fallbackFolders": [
-        "C:\\Program Files (x86)\\Microsoft Visual Studio\\Shared\\NuGetPackages"
-      ],
       "configFilePaths": [
-        "C:\\Users\\PC\\AppData\\Roaming\\NuGet\\NuGet.Config",
-        "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.FallbackLocation.config",
+        "C:\\Users\\84944\\AppData\\Roaming\\NuGet\\NuGet.Config",
         "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
       ],
       "originalTargetFrameworks": [
@@ -837,7 +832,7 @@
             "privateAssets": "all"
           }
         },
-        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.400\\RuntimeIdentifierGraph.json"
+        "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
       }
     }
   }

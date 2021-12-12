@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
+using NKSLK.API.Common;
+using NKSLK.API.Models.Reports;
+using NKSLK.API.Repository.ReportRepository;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,21 +23,15 @@ namespace NKSLK.API.Controllers
             _configuration = configuration;
         }
 
+        /// <summary>
+        /// Nhật ký sản lượng khoán làm riêng
+        /// </summary>
+        /// <returns></returns>
         [Route("ReportBySelf")]
         [HttpGet]
         public JsonResult ReportBySelf()
         {
-            string query = @"select n.ma_nkslk,cn.ma_congnhan,cn.hoten, n.ngaybatdau, n.thoigian_batdau, n.thoigian_ketthuc
-	                        from NKSLK n, NKSLK_CONGNHAN nc, CONGNHAN cn
-	                        where n.ma_nkslk = nc.ma_nkslk
-	                             and nc.ma_congnhan = cn.ma_congnhan
-		                         and nc.ma_nkslk in (select nc.ma_nkslk
-							                         from NKSLK_CONGNHAN nc
-							                         group by  nc.ma_nkslk
-							                         having COUNT(ma_congnhan) = 1)
-	                        group by n.ma_nkslk,cn.ma_congnhan,cn.hoten, n.ngaybatdau, n.thoigian_batdau, n.thoigian_ketthuc
-	                        order by n.ngaybatdau desc
-                            ";
+            string query = ReportSQL.queryReportBySelf;
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
@@ -61,19 +58,8 @@ namespace NKSLK.API.Controllers
         [HttpGet]
         public JsonResult ReportByTogether()
         {
-            string query = @"select n.ma_nkslk,cn.ma_congnhan,cn.hoten, n.ngaybatdau, n.thoigian_batdau, n.thoigian_ketthuc
-	                        from NKSLK n, NKSLK_CONGNHAN nc, CONGNHAN cn
-	                        where n.ma_nkslk = nc.ma_nkslk
-	                             and nc.ma_congnhan = cn.ma_congnhan
-		                         and nc.ma_nkslk in (select nc.ma_nkslk
-							                         from NKSLK_CONGNHAN nc
-							                         group by  nc.ma_nkslk
-							                         having COUNT(ma_congnhan) > 1)
-	                        group by n.ma_nkslk,cn.ma_congnhan,cn.hoten, n.ngaybatdau, n.thoigian_batdau, n.thoigian_ketthuc
-	                        order by n.ngaybatdau desc
-                            ";
-
             DataTable table = new DataTable();
+            string query = ReportSQL.queryReportByTogether;
             string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
             SqlDataReader myReader;
             using (SqlConnection myCon = new SqlConnection(sqlDataSource))
@@ -98,18 +84,85 @@ namespace NKSLK.API.Controllers
         [HttpGet]
         public JsonResult ReportByLate()
         {
-            string query = @"select n.ma_nkslk,cn.ma_congnhan,cn.hoten, n.thoigian_batdau, nc.thoigian_batdau, n.thoigian_ketthuc, DATEDIFF(minute, n.thoigian_batdau, nc.thoigian_batdau) as sophutdimuon
-	                        from NKSLK n, NKSLK_CONGNHAN nc, CONGNHAN cn
-	                        where n.ma_nkslk = nc.ma_nkslk
-	                             and nc.ma_congnhan = cn.ma_congnhan
-		                         and DATEDIFF(minute, n.thoigian_batdau, nc.thoigian_batdau) > 0
-		                         and nc.ma_nkslk in (select nc.ma_nkslk
-							                         from NKSLK_CONGNHAN nc
-							                         group by  nc.ma_nkslk
-							                         having COUNT(ma_congnhan) >= 1)
-	                        group by  n.ma_nkslk,cn.ma_congnhan,cn.hoten, n.thoigian_batdau, nc.thoigian_batdau, n.thoigian_ketthuc
-	                        order by  n.thoigian_batdau desc
-                            ";
+            DataTable table = new DataTable();
+            string query = ReportSQL.queryReportByLate;
+            string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+
+        /// <summary>
+        /// Số ngày làm việc của công nhân
+        /// </summary>
+        /// <returns></returns>
+        //[Route("GetWorkingDays")]
+        //[HttpGet]
+        //public IActionResult GetWorkingDays(int employeeId, int month)
+        //{
+        //    string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
+        //    try
+        //    {
+        //        var report = new ReportRepository();
+        //        var filter = new ReportsWorkingDay();
+        //        filter.EmployeeId = employeeId;
+        //        filter.Month = month;
+        //        var data = report.GetWorkingDays(filter,sqlDataSource);
+        //        if (data.Count() > 0)
+        //        {
+        //            return Ok(data);
+        //        }
+        //        else
+        //        {
+        //            return NoContent();
+        //        }
+        //    }
+        //    catch (Exception)
+        //    {
+
+        //        return StatusCode(500);
+        //    }
+        //}
+        [Route("GetWorkingDays")]
+        [HttpGet]
+        public JsonResult GetWorkingDays(int? employeeId, int? month)
+        {
+            string query = ReportSQL.queryGetWorkingDays;
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@macongnhan", employeeId ?? (object)DBNull.Value);
+                    myCommand.Parameters.AddWithValue("@month", month ?? (object)DBNull.Value);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+            return new JsonResult(table);
+        }
+
+        [Route("GetExpiredProducts")]
+        [HttpGet]
+        public JsonResult GetExpiredProducts()
+        {
+            string query = ReportSQL.queryGetExpiredProducts;
 
             DataTable table = new DataTable();
             string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
@@ -126,6 +179,48 @@ namespace NKSLK.API.Controllers
                 }
             }
             return new JsonResult(table);
+        }
+        [Route("UpdateReportSelf")]
+        [HttpPut]
+        public JsonResult UpdateReportSelf(ReportEmployee re)
+        {
+            string query = @"
+                            update NKSLK_CONGNHAN
+                            set thoigian_batdau= @thoigian_batdau,
+		                        thoigian_ketthuc = @thoigian_ketthuc
+                            where ma_congnhan = @ma_congnhan and ma_nkslk = @ma_nkslk  
+
+	                        update NKSLK
+                            set ngaybatdau= @ngaybatdau
+                            where ma_nkslk = @ma_nkslk 
+
+	                        update CONGNHAN
+                            set hoten= @hoten
+                            where ma_congnhan = @ma_congnhan
+                            ";
+
+            DataTable table = new DataTable();
+            string sqlDataSource = _configuration.GetConnectionString("NKSLKConnectionString");
+            SqlDataReader myReader;
+            using (SqlConnection myCon = new SqlConnection(sqlDataSource))
+            {
+                myCon.Open();
+                using (SqlCommand myCommand = new SqlCommand(query, myCon))
+                {
+                    myCommand.Parameters.AddWithValue("@ma_nkslk", re.ma_nkslk);
+                    myCommand.Parameters.AddWithValue("@ma_congnhan", re.ma_congnhan);
+                    myCommand.Parameters.AddWithValue("@hoten", re.hoten);
+                    myCommand.Parameters.AddWithValue("@ngaybatdau", re.ngaybatdau);
+                    myCommand.Parameters.AddWithValue("@thoigian_batdau", re.thoigian_batdau);
+                    myCommand.Parameters.AddWithValue("@thoigian_ketthuc", re.thoigian_ketthuc);
+                    myReader = myCommand.ExecuteReader();
+                    table.Load(myReader);
+                    myReader.Close();
+                    myCon.Close();
+                }
+            }
+
+            return new JsonResult("Cập nhật thành công!!");
         }
     }
 }

@@ -1,25 +1,21 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\Tran Ha\\Documents\\GitHub\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj": {}
+    "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj": {}
   },
   "projects": {
-    "C:\\Users\\Tran Ha\\Documents\\GitHub\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj": {
+    "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\Tran Ha\\Documents\\GitHub\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
+        "projectUniqueName": "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
         "projectName": "NKSLK.API",
-        "projectPath": "C:\\Users\\Tran Ha\\Documents\\GitHub\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
-        "packagesPath": "C:\\Users\\Tran Ha\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\Tran Ha\\Documents\\GitHub\\nkslk-clientserver\\api\\NKSLK.API\\NKSLK.API\\obj\\",
+        "projectPath": "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\NKSLK.API.csproj",
+        "packagesPath": "C:\\Users\\84944\\.nuget\\packages\\",
+        "outputPath": "D:\\Ky1-Năm-Cuối\\Client Server\\NKSLK-Project\\api\\NKSLK.API\\NKSLK.API\\obj\\",
         "projectStyle": "PackageReference",
-        "fallbackFolders": [
-          "C:\\Program Files (x86)\\Microsoft\\Xamarin\\NuGet\\"
-        ],
         "configFilePaths": [
-          "C:\\Users\\Tran Ha\\AppData\\Roaming\\NuGet\\NuGet.Config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config",
-          "C:\\Program Files (x86)\\NuGet\\Config\\Xamarin.Offline.config"
+          "C:\\Users\\84944\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
           "netcoreapp3.1"
@@ -44,6 +40,10 @@
         "netcoreapp3.1": {
           "targetAlias": "netcoreapp3.1",
           "dependencies": {
+            "Dapper": {
+              "target": "Package",
+              "version": "[2.0.90, )"
+            },
             "Microsoft.AspNetCore.Mvc.NewtonsoftJson": {
               "target": "Package",
               "version": "[3.1.16, )"
@@ -71,7 +71,7 @@
               "privateAssets": "all"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.401\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\5.0.402\\RuntimeIdentifierGraph.json"
         }
       }
     }
